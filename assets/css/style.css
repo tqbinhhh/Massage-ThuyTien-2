@@ -238,40 +238,59 @@
         }
 
         .section-3 {
-            background-color: #fdfaf6;
-        }
-
-        .section-3 .card {
-            background: #fff;
-            border: 1px solid #f0f0f0;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-            padding: 30px 20px;
+            background: #fff9f6;
+            padding: 60px 20px;
             text-align: center;
-            height: 100%;
-            transition: transform 0.3s, box-shadow 0.3s;
         }
 
-        .section-3 .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(217, 130, 43, 0.15);
+        .section-3 .section-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 12px;
         }
 
-        .section-3 .card img {
-            max-width: 80px;
-            margin-bottom: 20px;
-        }
-
-        .section-3 .card h3 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            text-transform: none;
-        }
-
-        .section-3 .card p {
-            font-size: 0.95rem;
+        .section-3 .section-description {
+            font-size: 16px;
             color: #666;
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .service {
+            background: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .service img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 16px;
+        }
+
+        .service h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .service p {
+            font-size: 15px;
+            color: #555;
+            line-height: 1.5;
         }
 
         .testimonials {
@@ -618,3 +637,17 @@
                 transform: translateX(-50%);
             }
         }
+
+
+/* ===== RESPONSIVE MOBILE ===== */
+@media (max-width: 768px) {
+  .section-3 .service-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .section-3 .service-box {
+    width: 100%;
+    max-width: 320px;
+  }
+}
