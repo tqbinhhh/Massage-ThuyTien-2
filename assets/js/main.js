@@ -1,32 +1,69 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const observerOptions = {
-        root: null, // relative to the viewport
-        rootMargin: '0px',
-        threshold: 0.1 // 10% of the element must be visible to trigger
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-visible');
-                observer.unobserve(entry.target); // Stop observing once animated
-            }
-        });
-    }, observerOptions);
-
-    // Observe elements for animation
-    document.querySelectorAll('.section-2 .col-6, .section-3 .col-3, .testimonial, .reservation-container').forEach(el => {
-        observer.observe(el);
+document.addEventListener('DOMContentLoaded', function () {
+    // 1. KHỞI TẠO THƯ VIỆN AOS
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out',
+        once: true
     });
 
-    // Simple smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
+    // 2. CÁC BIẾN CẦN THIẾT CHO HEADER
+    const header = document.querySelector('.header');
+    const headerToggle = document.querySelector('.header-toggle');
+    const desktopMenu = document.querySelector('.header .inner-menu');
+    const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+    const body = document.body;
 
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
+    // 3. TỰ ĐỘNG SAO CHÉP MENU DESKTOP SANG MOBILE
+    if (desktopMenu && mobileMenuOverlay) {
+        mobileMenuOverlay.innerHTML = desktopMenu.innerHTML;
+    }
+
+    // 4. HIỆU ỨNG HEADER KHI CUỘN
+    if (header) {
+        window.addEventListener('scroll', function () {
+            header.classList.toggle('is-scrolled', window.scrollY > 50);
+        });
+    }
+
+    // 5. LOGIC ĐÓNG/MỞ MENU
+    function toggleMenu() {
+        if (!mobileMenuOverlay || !headerToggle || !body) return;
+
+        const isOpen = mobileMenuOverlay.classList.toggle('is-open');
+        headerToggle.classList.toggle('is-active', isOpen);
+        body.classList.toggle('overlay-active', isOpen);
+
+        const icon = headerToggle.querySelector('i');
+        if (icon) {
+            icon.className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+        }
+    }
+
+    if (headerToggle) {
+        headerToggle.addEventListener('click', toggleMenu);
+    }
+
+    // 6. ĐÓNG MENU KHI BẤM LINK
+    const navLinks = mobileMenuOverlay.querySelectorAll('a');
+    navLinks.forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            if (mobileMenuOverlay.classList.contains('is-open')) {
+                toggleMenu();
+            }
+
+            const href = this.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                const targetElement = document.querySelector(href);
+                if (targetElement) {
+                    setTimeout(() => {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }, 300);
+                }
+            }
         });
     });
 });
